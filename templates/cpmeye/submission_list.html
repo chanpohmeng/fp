@@ -1,0 +1,9 @@
+<ul>
+{% if submission_list %}  
+  {% for submission in submission_list %}
+    <li><a href="/cpmeye/submission/{{ submission }}">Submissions</a></li>
+  {% endfor %}
+{%else%}
+    <li>No submissions at present that starts with {{sw}}</li>
+{% endif %}
+</ul>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+    
+    </head>
+    
+    <body>
+      <h1>Add a submission here!</h1>
+    
+        <form role="form" id="submission_form" method="POST", action="/cpmeye/add_submission/"> {% csrf_token %}
+        {{ form.as_p }}
+        <input type = 'submit'>
+      </form>
+    
+    </body>
+
+  </html>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category_name }}{% endblock %}
+{%block body_block%}
+
+        <h2>Login to cpmeye</h2>
+
+        <form role="form" id="login_form" method="post" action="/cpmeye/login/">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input class="form-control" type="text" name="username" value="" size="50" />
+            </div>
+            
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input class="form-control" type="password" name="password" value="" size="50" />
+            </div>
+
+            <button class="btn btn-primary" type="submit" name="submit">Submit</button>
+        </form>
+
+{%endblock%}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block head %}
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function vote(subID) {
+      $.ajax({
+        type:"POST",
+        url: "/vote/",
+        data: {submission: "submissionID"},
+        success: function() {
+          $("#upv-" + subID).hide();
+      },
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      });
+      return false;
+    }
+
+    $('a.vote').click(function() {
+      var subID = this.subID
+      return vote(subID);
+    })
+
+  });
+  </script>
+{% endblock head %}
+
+
+{% block body_block %}
+
+    <div class="row">
+    <div class="col-xs-3">
+    <div class="form-group">
+                <form>
+                    {% csrf_token %}    
+                    <label>Search Submission</label>
+                    <input class="form-control" type="text" name="suggestion" value="" id="suggestion" />
+                    
+                </form>
+      </div>   
+     </div>
+    <div class="col-xs-3">
+      <a href="/cpmeye/add_submission"><h4>Add a Submission!</h4></a>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-xs-5">
+          {% for submission in submission_list %}
+              <p>
+              {{ submission.title }}
+              <table style = "width:100%">
+                <tr>
+                  <td>Message:</td>
+                  <td>{{ submission.content }}</td>
+                </tr>
+                
+                <tr>
+                  <td>Number of votes</td>
+                  <td id = "chancounter">{{ submission.chancounter }} votes</td>
+                </tr>
+              </table>
+              
+              <form role="form" id="vote_up" method="POST", action="/cpmeye/"> {% csrf_token %}
+                <button type = "button" id = "upv-{{ submission.id }}" subID = "{{ submission.id }}" class = "vote">Vote Up</button>
+              </form>
+              
+              <form role="form" id="vote_up" method="POST", action="/cpmeye/"> {% csrf_token %} 
+                <button onclick="votedown(_)" subID="{{ submission.id }}"> Vote down </button>
+              </form>
+              <hr>
+          {% endfor %}
+          </ul>
+          
+      </div>
+      </div>
+
+{% endblock body_block %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{%block body_block%}
+        <h2>Add a Submission</h2>
+        <form role="form" id="submission_form" method="post" action="add_submission/">
+
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+           
+              <div class="form-group">
+                <label>{{ field.label }}</label>
+              </div>
+            {% endfor %}
+
+            <button class="btn btn-primary" type="submit" name="submit">Create Submission</button>
+        </form>
+{%endblock%}

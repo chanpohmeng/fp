@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block head %}
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{% endblock head %}
+
+
+{% block body_block %}
+
+    <div class="row">
+    <div class="col-xs-3">
+    <div class="form-group">
+                <form>
+                    {% csrf_token %}    
+                    <label>Search Submission</label>
+                    <input class="form-control" type="text" name="suggestion" value="" id="suggestion" />
+                    
+                </form>
+      </div>   
+     </div>
+    <div class="col-xs-3">
+      <a href="/cpmeye/add_submission"><h4>Add a Submission!</h4></a>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-xs-5">
+          {% for submission in submission_list %}
+              <p>
+              {{ submission.title }}
+              <table style = "width:100%">
+                <tr>
+                  <td>Message:</td>
+                  <td>{{ submission.content }}</td>
+                </tr>
+                
+                <tr>
+                  <td>Number of votes</td>
+                  <td id = "chancounter">{{ submission.chancounter }} votes</td>
+                </tr>
+              </table>
+              
+
+              <form role = "form" id = "vote_up" method = "post", action = "/cpmeye/voteup/", submissionID = "{{ submission.id }}"> {% csrf_token %} 
+                <input type="hidden" name="vote_up" value="{{ submission.id }}" />
+                <button >Vote Up</button>
+              </form>
+
+              
+              <form role="form" id="vote_up" method="POST", action="/cpmeye/"> {% csrf_token %} 
+                <button onclick="votedown()" subID="{{ submission.id }}"> Vote down </button>
+              </form>
+              <hr>
+          {% endfor %}
+          </ul>
+          
+      </div>
+      </div>
+
+{% endblock body_block %}
+

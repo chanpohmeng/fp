@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load newfilters %}
+{% block title %}{{ category_name }}{% endblock %}
+{%block body_block%}
+   
+        {% if registered %}
+           <strong>Thank you for registering!</strong>
+        <a href="/cpmeye/">Return to the homepage.</a><br />
+        {% else %}
+           <h2>Register here!</h2><br />
+        <form role="form" id="user_form" method="post" action="/cpmeye/register/"
+                enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in user_form.visible_fields %}
+            {{ field.errors }}
+            
+          <div class="form-group">
+              <label>{{ field.label }}</label> 
+              {{ field|addcss:"class:form-control" }} 
+          </div>
+            {% endfor %}
+            
+          
+              <!-- Provide a button to click to submit the form. -->
+            <button class="btn btn-primary" type="submit" name="submit">Register</button>
+          
+        </form>
+        {% endif %}
+{%endblock%}
